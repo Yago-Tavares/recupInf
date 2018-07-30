@@ -6,22 +6,21 @@
     </head>
     <body>
         <div class="request-search">
-            <label>User id: <input type="text" id="User" name="Name" /></label>
-            <button onclick="recomendations()">Search</button>
+            <form id="form">
+                <label>User id: <input type="text" id="User" name="Name" /></label>
+                <button type="submit">Recomendar</button>
+            </form>
         </div>
         <div class="response">
-            <p><b>Top 5 movies</b></p>
-            <p id="movie1">-</p>
-            <p id="movie2">-</p>
-            <p id="movie3">-</p>
-            <p id="movie4">-</p>
-            <p id="movie5">-</p>
-            <p><b>Top 3 users neighbors</b></p>
-            <p id="user1">-</p>
-            <p id="user2">-</p>
-            <p id="user3">-</p>
+            <div class="result">
+                <p><b>Top 5 movies</b></p>
+                <ul id="movies"></ul>
+            </div>
+            <div class="result">
+                <p><b>Top 3 users neighbors</b></p>
+                <ul id="users"></ul>
+            </div>
         </div>
-        
         <script src="/js/app.js"></script>
     </body>
 </html>
