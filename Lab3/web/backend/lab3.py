@@ -4,7 +4,7 @@ from surprise import Dataset
 from surprise import KNNWithMeans,accuracy
 from surprise.model_selection import train_test_split
 
-__all__ = ['top5Movies', 'top3Neighbors', 'printRMSE']
+__all__ = ['top5Movies', 'top3Neighbors', 'rmse']
 
 movies = dict()
 data_movies = io.open('ml-100k/u.item',encoding="ISO-8859-1").read().split('\n')
@@ -41,24 +41,34 @@ algo = KNNWithMeans(k=4, sim_options={'name': 'cosine', 'user_based': True})
 
 algo.fit(trainset)
 predictions = algo.test(testset)
-rmse = accuracy.rmse(predictions,verbose = False)
+rmse_knn = accuracy.rmse(predictions,verbose = False)
 
 def top5Movies(userId):
     indicationsByRating = dict()
+    print(userId)
     indicationsByUser = list(indications[userId])
 
     for i in indicationsByUser:
         indicationsByRating[i] = algo.predict(uid=str(userId),iid=str(i)).est
     indicationsByRating = sorted(indicationsByRating.items(), key=lambda x: x[1],reverse = True)
     top5 = indicationsByRating[:5]
+    top5MovieNames = []
     for w in top5:
-        print(movies[w[0]],w[1])
-    return top5
+        print(w)
+        print(movies[w[0]])
+        top5MovieNames.append(movies[w[0]])
+    print(top5MovieNames)
+    return top5MovieNames
 
 def top3Neighbors(uid):
     neighbors = algo.get_neighbors(iid=uid, k=3)
     print('3 users neighbors of user id 360: ' + str(neighbors))
     return neighbors
 
-def printRMSE():
-    return 'KNN RMSE: %.3f' % rmse
+def rmse():
+    print(rmse_knn)
+    return rmse_knn
+
+print(top5Movies(56))
+print(top3Neighbors(56))
+print(rmse())
